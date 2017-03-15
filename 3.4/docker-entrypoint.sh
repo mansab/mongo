@@ -9,11 +9,8 @@ fi
 # all mongo* commands should be dropped to the correct user
 if [[ "$1" == mongo* ]] && [ "$(id -u)" = '0' ]; then
 	if [ "$1" = 'mongod' ]; then
-    if [ ! -d /data/db ] || [ ! -d /data/configdb ]; then
-      exec gosu mongodb "$BASH_SOURCE" "mkdir -p /data/db /data/configdb"
-      exec gosu mongodb "$BASH_SOURCE" "chmod -R 777 /data/db /data/configdb"
-	  fi
-  fi
+		chown -R mongodb /data/configdb /data/db
+	fi
 	exec gosu mongodb "$BASH_SOURCE" "$@"
 fi
 
