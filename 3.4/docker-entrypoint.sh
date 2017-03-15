@@ -8,9 +8,6 @@ fi
 # allow the container to be started with `--user`
 # all mongo* commands should be dropped to the correct user
 if [[ "$1" == mongo* ]] && [ "$(id -u)" = '0' ]; then
-	if [ "$1" = 'mongod' ]; then
-		chown -R mongodb /data/configdb /data/db
-	fi
 	exec gosu mongodb "$BASH_SOURCE" "$@"
 fi
 
